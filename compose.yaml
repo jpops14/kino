@@ -1,0 +1,8 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: "kino_db"
+      POSTGRES_USER: "kino_user"
+      POSTGRES_PASSWORD: "kino_pw"
