@@ -1,8 +1,8 @@
 services:
   db:
+    env_file:
+      - ".env"
     image: postgres
     restart: always
-    environment:
-      POSTGRES_DB: "kino_db"
-      POSTGRES_USER: "kino_user"
-      POSTGRES_PASSWORD: "kino_pw"
+    ports:
+      - 5432:5432
