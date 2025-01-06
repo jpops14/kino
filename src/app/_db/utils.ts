@@ -15,4 +15,5 @@ export const handlePrismaError = (error: unknown) => {
     } else if (error instanceof Prisma.PrismaClientValidationError) {
         console.error(`PrismaClientValidationError:     ${error.message}`)
     }
+    return null;
 }

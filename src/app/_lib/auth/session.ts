@@ -1,7 +1,6 @@
 import 'server-only'
-import { JWTPayload, jwtVerify, SignJWT } from "jose";
+import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
-import { user } from '@prisma/client';
 
 const secret = "key"
 

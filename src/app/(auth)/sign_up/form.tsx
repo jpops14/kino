@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionState } from "react";
-import { signUp } from "../_lib/actions";
+import { signUp } from "../../_lib/auth/actions";
 import { Box, Button, Checkbox, Container, FormControlLabel, Paper, TextField, Typography } from "@mui/material";
 
 export const SignUpForm = () => {

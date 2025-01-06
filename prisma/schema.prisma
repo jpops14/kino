@@ -14,8 +14,39 @@ datasource db {
 }
 
 model user {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  name     String
   password String
+}
+
+model movie {
+  id          Int         @id @default(autoincrement())
+  tmdb_id     Int?     
+  imdb_id     String?
+  title       String
+  year       Int
+  director    String
+  description String?
+  genre String?
+  duration    Int
+  screenings  screening[]
+}
+
+model room {
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
+  capacity    Int
+  layout      String
+  information String
+  screenings  screening[]
+}
+
+model screening {
+  id       Int      @id @default(autoincrement())
+  start    DateTime
+  movie    movie    @relation(fields: [movie_id], references: [id])
+  movie_id Int
+  room     room     @relation(fields: [room_id], references: [id])
+  room_id  Int
 }

@@ -14,6 +14,7 @@ export const signUp = async (state, formData: FormData) => {
     });
 
     if (!validationResult.success) {
+        console.log(validationResult.error.flatten().fieldErrors)
         return {
             errors: validationResult.error.flatten().fieldErrors,
         }

@@ -1,14 +1,14 @@
 'use client'
 
 import { useActionState } from "react";
-import { signIn } from "../_lib/actions";
+import { signIn } from "../../_lib/auth/actions";
 import { Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
 
 export const SignInForm = () => {
     const [state, action, pending] = useActionState(signIn, { errors: {}});
     return (
         <Container maxWidth="xs">
-             <Paper elevation={10} sx={{mt: 10, padding: 2}}>
+             <Paper elevation={10} sx={{padding: 2}}>
                 <Typography variant="h5">
                     Sign in
                 </Typography>

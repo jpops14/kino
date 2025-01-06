@@ -1,12 +1,10 @@
 import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import MovieIcon from '@mui/icons-material/Movie';
-import { deleteSession, verifySession } from "./(auth)/_lib/session";
+import {  verifySession } from "./_lib/auth/session";
 
 export default async function NavBar() {
 
     const session = await verifySession();
-
-    console.log(session);
 
     const pages = ['blog', 'movies'];
 
@@ -36,6 +34,7 @@ export default async function NavBar() {
                     {pages.map((page) => (
                     <Button
                         key={page}
+                        href={`/${page}`}
                         sx={{ my: 2, color: 'white', display: 'block' }}
                     >
                         {page}
@@ -43,7 +42,7 @@ export default async function NavBar() {
                     ))}
                 </Box>
                 <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title={session ? "Sign in" : "Go to dashboard"}>
+                    <Tooltip title={session ? "Go to dashboard" : "Sign in"}>
                     <IconButton sx={{ p: 0 }}>
                         <Avatar>
                         {session ? session.name?.split(' ')?.map((value: string) => value.at(0)?.toUpperCase()) : '?'}
