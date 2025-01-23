@@ -3,7 +3,7 @@
 import prisma from "@/app/_db/db";
 import { SignInFormSchema, SignUpFormSchema } from "./definitons"
 import { handlePrismaError } from "@/app/_db/utils";
-import { createSession } from "./session";
+import { createSession, deleteSession } from "./session";
 
 export const signUp = async (state, formData: FormData) => {
     
@@ -38,9 +38,14 @@ export const signUp = async (state, formData: FormData) => {
         handlePrismaError
     );
 
-    await createSession({ name, email });
+    if (user) {
+        await createSession({ name, email, role: user.role as ('ADMIN' | 'USER') });
+    } else {
+        console.error ('ERROR: COULD NOT CREATE USER');
+    }
+    return { success: true };
 }
-
+ 
 export const signIn = async (state, formData: FormData) => {
     
     const validationResult = SignInFormSchema.safeParse({
@@ -81,5 +86,8 @@ export const signIn = async (state, formData: FormData) => {
         }
     }
 
-    await createSession({ name: user.name, email: user.email });
+    await createSession({ name: user.name, email: user.email, role: user.role as ('ADMIN' | 'USER') });
+    return { success: true };
 }
+
+export const signOut = async () => deleteSession();

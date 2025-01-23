@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-import "./globals.css";
-import NavBar from "./navbar";
+import NavBar from "./_components/navbar/navbar";
+import AuthPopups from "./(auth)/auth_popups";
 
 export const metadata: Metadata = {
   title: "Kino",
@@ -18,6 +18,7 @@ export default function RootLayout({
       <body>
         <AppRouterCacheProvider>
         <NavBar />
+        <AuthPopups />
         {children}
         </AppRouterCacheProvider>
       </body>

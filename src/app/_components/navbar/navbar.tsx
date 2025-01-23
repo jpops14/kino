@@ -1,12 +1,14 @@
-import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
+import { AppBar, Avatar, Box, Button, Container, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
 import MovieIcon from '@mui/icons-material/Movie';
-import {  verifySession } from "./_lib/auth/session";
+import {  verifySession } from "../../_lib/auth/session";
+import Link from "next/link";
+import ProfileDropdown from "./profile_dropdown";
 
 export default async function NavBar() {
 
     const session = await verifySession();
 
-    const pages = ['blog', 'movies'];
+    const pages = ['blog', 'movies', 'admin'];
 
     return (
         <AppBar position="sticky">
@@ -17,7 +19,7 @@ export default async function NavBar() {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
+                        href="/"
                         sx={{
                         mr: 2,
                         display: { xs: 'none', md: 'flex' },
@@ -41,15 +43,7 @@ export default async function NavBar() {
                     </Button>
                     ))}
                 </Box>
-                <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title={session ? "Go to dashboard" : "Sign in"}>
-                    <IconButton sx={{ p: 0 }}>
-                        <Avatar>
-                        {session ? session.name?.split(' ')?.map((value: string) => value.at(0)?.toUpperCase()) : '?'}
-                        </Avatar>
-                    </IconButton>
-                    </Tooltip>
-                </Box>
+                <ProfileDropdown session={session} />
                 </Toolbar>
             </Container>
         </AppBar>

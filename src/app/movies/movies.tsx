@@ -79,6 +79,9 @@ const Movies = async ({ searchParams }: {searchParams: URLSearchParams}) => {
 
     return (
       <Paper sx={{p: 2}}>
+        <Typography variant="h2" my={2} textAlign={"center"}>
+          Movie Index
+        </Typography>
         <Grid container spacing={1}>
         {movies?.map((movie) => (
             <Grid item key={movie.id} xs={12} sx={{ }}>

@@ -1,6 +1,7 @@
 import 'server-only'
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
+import { role } from '../user/definitons';
 
 const secret = "key"
 
@@ -17,9 +18,10 @@ type Session = {
     expires: Date,
 }
 
-type SessionUser = {
+export type SessionUser = {
     name: string,
     email: string,
+    role: role,
 };
 
 export const encrypt = async (payload: Session) => new SignJWT(payload)

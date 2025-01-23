@@ -4,6 +4,7 @@ import prisma from "@/app/_db/db";
 import { handlePrismaError } from "@/app/_db/utils";
 import { MovieSchema } from "./definitons";
 import { redirect } from "next/navigation";
+import { errors } from "jose";
 
 export const editMovie = async (state, formData: FormData) => {
 
@@ -55,7 +56,7 @@ export const editMovie = async (state, formData: FormData) => {
         }
     });
     
-    await movieOperation.then(
+    const movie = await movieOperation.then(
         (movie) => { 
             console.debug(`movie #${movie.id} ${id ? 'updated' : 'created'}`)
             console.debug(`^ movie: ${JSON.stringify(movie)}`)
@@ -65,5 +66,15 @@ export const editMovie = async (state, formData: FormData) => {
         handlePrismaError
     );
 
-    redirect('/movies')
+    if (movie) {
+        return {
+            success: true
+        }
+    } else {
+        return {
+            errors: {
+                general: 'An error occurred while saving changes'
+            }
+        }
+    }
 }

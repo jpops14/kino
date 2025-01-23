@@ -18,6 +18,7 @@ model user {
   email    String @unique
   name     String
   password String
+  role     String @default("USER")
 }
 
 model movie {
@@ -25,10 +26,10 @@ model movie {
   tmdb_id     Int?     
   imdb_id     String?
   title       String
-  year       Int
+  year        Int
   director    String
-  description String?
-  genre String?
+  description String
+  genre       String
   duration    Int
   screenings  screening[]
 }
@@ -38,14 +39,15 @@ model room {
   name        String      @unique
   capacity    Int
   layout      String
-  information String
+  information String?
   screenings  screening[]
 }
 
 model screening {
   id       Int      @id @default(autoincrement())
-  start    DateTime
+  start DateTime
   movie    movie    @relation(fields: [movie_id], references: [id])
+  price Int
   movie_id Int
   room     room     @relation(fields: [room_id], references: [id])
   room_id  Int
