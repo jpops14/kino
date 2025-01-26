@@ -13,7 +13,6 @@ export const SignInDialog = ({ open, onClose }: { open: boolean, onClose: () => 
         };
     });
 
-    console.log(state?.errorss?.email)
     return (
         <Dialog open={open} onClose={onClose}>
             <Container maxWidth="xs">

@@ -14,5 +14,5 @@ export const editRoomSchema = z.object({
                 return false;
             }
         }, {message: "Seat names must be unique"}),
-    information: z.string().optional(),
+    information: z.string().max(120).optional(),
 });

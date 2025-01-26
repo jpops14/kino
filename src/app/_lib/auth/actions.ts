@@ -39,7 +39,7 @@ export const signUp = async (state, formData: FormData) => {
     );
 
     if (user) {
-        await createSession({ name, email, role: user.role as ('ADMIN' | 'USER') });
+        await createSession({ id: user.id, name, email, role: user.role as ('ADMIN' | 'USER') });
     } else {
         console.error ('ERROR: COULD NOT CREATE USER');
     }
@@ -86,7 +86,7 @@ export const signIn = async (state, formData: FormData) => {
         }
     }
 
-    await createSession({ name: user.name, email: user.email, role: user.role as ('ADMIN' | 'USER') });
+    await createSession({ id: user.id, name: user.name, email: user.email, role: user.role as ('ADMIN' | 'USER') });
     return { success: true };
 }
 

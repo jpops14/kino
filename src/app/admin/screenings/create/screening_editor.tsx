@@ -6,7 +6,7 @@ import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { Alert, Autocomplete, Box, Button, Dialog, TextField, Tooltip, Typography } from "@mui/material";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { editScreening, getRoomScreeningsAndCapacity } from "@/app/_lib/screening/actions";
-import { FormEvent, useActionState, useEffect, useState, useTransition } from "react";
+import { useActionState, useEffect, useState, useTransition } from "react";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
@@ -153,7 +153,7 @@ const ScreeningEditor = ({ screeningData, movies, rooms }: {
                         <TimePicker
                             label={"Time"}
                             shouldDisableTime={(value) => isConflicting(value)}
-                            disabled={!selectedMovie || !selectedRoom || !startDate} 
+                            disabled={!selectedMovie || !selectedRoom || !startDate || isPending} 
                             value={startTime}
                             onChange={setStartTime}
                             minutesStep={5}

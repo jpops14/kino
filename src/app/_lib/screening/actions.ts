@@ -115,3 +115,76 @@ export const getRoomScreeningsAndCapacity = async (roomId: number, date: Date) =
                 })
     )).catch(handlePrismaError);
 }
+
+export const getBookingScreeningData = async (screeningId: string) => {
+
+    const session = await verifySession();
+
+    if (!session) {
+        redirect('/');
+    }
+
+    await prisma.booking.deleteMany({
+        where: {
+            paid: false,
+            payment_expires: {
+                lte: new Date()
+            }
+        }
+    }).catch(handlePrismaError);
+
+    console.log(screeningId);
+
+
+    try {
+        const parsedId = parseInt(screeningId);
+        return await prisma.screening.findFirst({
+            where: {
+                id: parsedId,
+            },
+            select: {
+                id: true,
+                start: true,
+                price: true,
+                movie: {
+                    select: {
+                        title: true,
+                        year: true,
+                        director: true,
+                        genre: true,
+                        description: true,
+                        duration: true,
+                    }
+                },
+                room: {
+                    select: {
+                        name: true,
+                        information: true,
+                        layout: true
+                    }
+                },
+                bookings: {
+                    select: {
+                        seats: true
+                    }
+                }
+            }
+        })
+        .catch(handlePrismaError)
+        .then((screening) => {
+            if (!screening) {
+                redirect('/');
+            }
+            return {
+                id: screening.id,
+                start: screening.start,
+                room: screening.room,
+                price: Number(screening.price),
+                movie: screening.movie,
+                lockedSeats: new Set(screening.bookings.map((booking) => JSON.parse(booking.seats)).flat())
+            };
+        }).catch((e) => null);
+    } catch (e) {
+        redirect('/');
+    }
+}

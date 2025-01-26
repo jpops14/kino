@@ -19,6 +19,7 @@ type Session = {
 }
 
 export type SessionUser = {
+    id: number,
     name: string,
     email: string,
     role: role,

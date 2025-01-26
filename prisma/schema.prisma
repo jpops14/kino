@@ -19,6 +19,8 @@ model user {
   name     String
   password String
   role     String @default("USER")
+  bookings booking[]
+  createdAt  DateTime @default(now())
 }
 
 model movie {
@@ -47,8 +49,24 @@ model screening {
   id       Int      @id @default(autoincrement())
   start DateTime
   movie    movie    @relation(fields: [movie_id], references: [id])
-  price Int
+  price Decimal
   movie_id Int
   room     room     @relation(fields: [room_id], references: [id])
   room_id  Int
+  bookings booking[]
+}
+
+model booking {
+  id         Int      @id @default(autoincrement())
+  user       user     @relation(fields: [user_id], references: [id])
+  user_id    Int
+  screening  screening @relation(fields: [screening_id], references: [id])
+  screening_id Int
+  seats      String
+  seats_count Int
+  total      Decimal
+  paid       Boolean @default(false)
+  transaction_id String?
+  payment_expires DateTime
+  createdAt  DateTime @default(now())
 }

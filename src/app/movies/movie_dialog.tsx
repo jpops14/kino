@@ -2,9 +2,10 @@
 
 import { movie } from "@prisma/client";
 import { redirect, useSearchParams } from "next/navigation";
-import { Dialog } from "@mui/material";
+import { Dialog, Typography } from "@mui/material";
+import MovieDetails from "../_components/movie/movie_details";
 
-const MovieDetails = ({ movieData }: { movieData: movie | null }) => { 
+const MovieDetailsDialog = ({ movieData }: { movieData: movie | null }) => { 
 
     const searchParams = useSearchParams();
 
@@ -18,9 +19,10 @@ const MovieDetails = ({ movieData }: { movieData: movie | null }) => {
  
     return (
         <Dialog open={!!edit && !!movieData} onClose={onClose}>
-            
+            <MovieDetails />
+            <Typography> Screenings </Typography>
         </Dialog>
     )
 }
 
-export default MovieDetails;
+export default MovieDetailsDialog;

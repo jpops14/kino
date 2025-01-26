@@ -5,8 +5,21 @@ import { handlePrismaError } from "@/app/_db/utils";
 import { MovieSchema } from "./definitons";
 import { redirect } from "next/navigation";
 import { errors } from "jose";
+import { verify } from "crypto";
+import { verifySession } from "../auth/session";
+import { start } from "repl";
 
 export const editMovie = async (state, formData: FormData) => {
+
+    const session = await verifySession();
+
+    if (!session) {
+        redirect('/movies?sign_in');
+    };
+
+    if(session?.role !== 'ADMIN') {
+        redirect('/movies');
+    }
 
     const idString = formData.get('id')?.toString();
     const durationString = formData.get('duration')?.toString();
@@ -78,3 +91,64 @@ export const editMovie = async (state, formData: FormData) => {
         }
     }
 }
+
+export const getMovies = async (search: string | null) => prisma.movie.findMany(search ? {
+    where: {
+        OR: [
+            { title: { contains: search } },
+            { director: { contains: search } },
+            { genre: { contains: search } },
+            { description: { contains: search } },
+        ]
+    },
+    select: {
+        id: true,
+        title: true,
+        year: true,
+        director: true,
+        genre: true,
+    }
+}: undefined).catch(handlePrismaError);
+
+export const getMovieDetailsWithScreenings = async (id: number) => prisma.movie.findUnique({
+    where: { id: id },
+    select: {
+        id: true,
+        title: true,
+        year: true,
+        director: true,
+        genre: true,
+        description: true,
+        duration: true,
+        screenings: {
+            select: {
+                id: true,
+                start: true,
+                room: {
+                    select: {
+                        name: true,
+                        capacity: true,
+                    }
+                },
+            bookings: {
+                where: { 
+                    OR: [
+                        { payment_expires: { gte: new Date() } },
+                        { paid: { equals: true } }
+                    ]
+                },
+                select: {
+                    id: true,
+                    seats: true,
+                }
+            }
+            }
+        }
+    }
+}).then((movie) => movie ? ({
+    ...movie,
+    screenings: movie.screenings.map((screening) => ({
+        start: screening.start,
+        full: screening.bookings.map((booking) => JSON.parse(booking.seats) as string[]).flat().length >= screening.room.capacity,
+    }))
+}) : null).catch(handlePrismaError);

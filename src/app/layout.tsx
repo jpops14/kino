@@ -15,11 +15,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body style={{ margin: 0 }}>
         <AppRouterCacheProvider>
-        <NavBar />
-        <AuthPopups />
-        {children}
+          <NavBar />
+          <AuthPopups />
+          <main style={{ marginTop: 0 }}>
+            {children}
+          </main>
         </AppRouterCacheProvider>
       </body>
     </html>
