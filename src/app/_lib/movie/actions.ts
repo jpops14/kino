@@ -92,7 +92,7 @@ export const editMovie = async (state, formData: FormData) => {
     }
 }
 
-export const getMovies = async (search: string | null) => prisma.movie.findMany(search ? {
+export const getMovies = async (search: string | null, limit?: number ) => prisma.movie.findMany(search ? {
     where: {
         OR: [
             { title: { contains: search } },
@@ -107,7 +107,8 @@ export const getMovies = async (search: string | null) => prisma.movie.findMany(
         year: true,
         director: true,
         genre: true,
-    }
+    },
+    take: limit || 3,
 }: undefined).catch(handlePrismaError);
 
 export const getMovieDetailsWithScreenings = async (id: number) => prisma.movie.findUnique({
@@ -130,25 +131,26 @@ export const getMovieDetailsWithScreenings = async (id: number) => prisma.movie.
                         capacity: true,
                     }
                 },
-            bookings: {
-                where: { 
-                    OR: [
-                        { payment_expires: { gte: new Date() } },
-                        { paid: { equals: true } }
-                    ]
-                },
-                select: {
-                    id: true,
-                    seats: true,
+                bookings: {
+                    where: { 
+                        OR: [
+                            { payment_expires: { gte: new Date() } },
+                            { paid: { equals: true } }
+                        ]
+                    },
+                    select: {
+                        id: true,
+                        seats_count: true,
+                    }
                 }
-            }
             }
         }
     }
 }).then((movie) => movie ? ({
     ...movie,
     screenings: movie.screenings.map((screening) => ({
+        id: screening.id,
         start: screening.start,
-        full: screening.bookings.map((booking) => JSON.parse(booking.seats) as string[]).flat().length >= screening.room.capacity,
+        full: screening.bookings.reduce((acc, booking) => acc + booking.seats_count, 0) >= screening.room.capacity,
     }))
 }) : null).catch(handlePrismaError);

@@ -3,7 +3,7 @@
 import prisma from "@/app/_db/db";
 import { handlePrismaError } from "@/app/_db/utils";
 import { editScreeningSchema } from "./definitons";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { verifySession } from "../auth/session";
 import { redirect } from "next/navigation";
 
@@ -19,9 +19,6 @@ export const editScreening = async (state, formData: FormData) => {
     const roomIdString = formData.get('room_id')?.toString();
     const priceString = formData.get('price')?.toString();
     const startString = formData.get('start')?.toString();
-
-
-    console.log(Object.fromEntries(formData.entries()));
 
     const formValues = {
         id: idString ? parseInt(idString) : null,
@@ -133,8 +130,6 @@ export const getBookingScreeningData = async (screeningId: string) => {
         }
     }).catch(handlePrismaError);
 
-    console.log(screeningId);
-
 
     try {
         const parsedId = parseInt(screeningId);
@@ -148,6 +143,7 @@ export const getBookingScreeningData = async (screeningId: string) => {
                 price: true,
                 movie: {
                     select: {
+                        id: true,
                         title: true,
                         year: true,
                         director: true,
@@ -188,3 +184,54 @@ export const getBookingScreeningData = async (screeningId: string) => {
         redirect('/');
     }
 }
+
+export const getScreenings = async (date: Date) => prisma.screening.findMany({
+    where:{
+            AND: [
+                
+                {
+                    start: {
+                        gte: dayjs(date).startOf('day').toDate(),
+                        lt: dayjs(date).endOf('day').toDate(),
+                    }
+                },
+                {
+                    start: {
+                        gte:  new Date(),
+                    }
+                }
+            ],
+    },
+    select: {
+        id: true,
+        start: true,
+        movie: {
+            select: {
+                title: true,
+                id: true,
+            }
+        },
+        bookings: {
+            select: {
+                seats_count: true,
+            }
+        },
+        room: {
+            select: {
+                capacity: true,
+            }
+        }
+    }}).then((screenings) => screenings.map(
+    (screening) => ({
+        id: screening.id,
+        start: screening.start,
+        movieId: screening.movie.id,
+        movieTitle: screening.movie.title,
+        full: screening.bookings.reduce((acc, booking) => acc + booking.seats_count, 0) >= screening.room.capacity,
+    })
+)).catch(handlePrismaError);
+
+export const getAdminScreenings = async () => prisma.screening.findMany().then((screenings) => screenings.map((screening) => ({
+    ...screening,
+    price: Number(screening.price),
+}))).catch(handlePrismaError);

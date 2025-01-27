@@ -1,15 +1,14 @@
 import { Container } from "@mui/material";;
 import React from "react";
 import Screenings from "./screenings";
-import { handlePrismaError } from "@/app/_db/utils";
-import prisma from "@/app/_db/db";
 import ScreeningPopups from "./screening_popups";
+import { getAdminScreenings } from "@/app/_lib/screening/actions";
 
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
 
   const paramsRecord = await searchParams;
   const params = new URLSearchParams(paramsRecord);
-  const screenings = await prisma.screening.findMany().catch(handlePrismaError);
+  const screenings = await getAdminScreenings() || [];
 
   return (
     <Container>

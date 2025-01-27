@@ -44,7 +44,7 @@ const MovieEditor = ({ movieData }: { movieData: movie | null }) => {
                     <ErrorList errors={state?.errors?.year} />
                     <TextField name="year" defaultValue={movieData?.year} label="Year" fullWidth  sx={{ my: 1 }} />
                     <ErrorList errors={state?.errors?.duration} />
-                    <TextField name="duration" type='number' defaultValue={movieData?.duration} label="Duration" fullWidth  sx={{ my: 1 }} />
+                    <TextField name="duration" type='number' defaultValue={movieData?.duration} label="Duration (Minutes)" fullWidth  sx={{ my: 1 }} />
                     <ErrorList errors={state?.errors?.description} />
                     <TextField name="description" minRows={10} multiline defaultValue={movieData?.description} label="Description" fullWidth  sx={{ my: 1 }} />
                     <Button type="submit" disabled={pending} variant="contained" fullWidth>

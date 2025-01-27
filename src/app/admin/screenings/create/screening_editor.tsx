@@ -144,7 +144,7 @@ const ScreeningEditor = ({ screeningData, movies, rooms }: {
                             label={"Date"} 
                             value={startDate}
                             disabled={!selectedMovie || !selectedRoom}
-                            onChange={onDateSelect}
+                            onAccept={onDateSelect}
                             disablePast
                             slotProps={{ textField: { fullWidth: true, sx: { my: 1 } } }}
                         />
@@ -155,7 +155,7 @@ const ScreeningEditor = ({ screeningData, movies, rooms }: {
                             shouldDisableTime={(value) => isConflicting(value)}
                             disabled={!selectedMovie || !selectedRoom || !startDate || isPending} 
                             value={startTime}
-                            onChange={setStartTime}
+                            onAccept={setStartTime}
                             minutesStep={5}
                             slotProps={{ textField: { fullWidth: true, sx: { my: 1 } } }}    
                         />

@@ -1,26 +1,31 @@
 import { Box, Container, Paper, Typography } from "@mui/material";
 
-import MoviesList from "./movies_list";
 import React from "react";
-import MoviePopups from "./movie_popups";
-import SearchBar from "../_components/search_bar/search_bar";
+import DateFilter from "./date_filter";
+import { getScreenings } from "../_lib/screening/actions";
+import dayjs from "dayjs";
+import Screenings from "./screenings";
 
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
 
   const paramsRecord = await searchParams;
   const params = new URLSearchParams(paramsRecord);
 
+  const dateParam = params.get('date');
+  const datefilter = dateParam ? dayjs(dateParam).toDate() : new Date();
+
+  const screenings = await getScreenings(datefilter);
+
   return (
     <Container maxWidth='lg' sx={{ }}>
-      <MoviePopups searchParams={params}/>
       <Paper sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', px: 3, pb: 3 }} >
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
         <Typography variant="h2" my={2} textAlign={"center"}>
-          Movie Index
+          Screenings
         </Typography>
-        <Box sx={{ mx: 2, my: 2 }}>
-          <SearchBar />
+          <DateFilter />
         </Box>
-        <MoviesList searchParams={params}/>
+        <Screenings screenings={screenings || []} />
       </Paper>
     </Container>
   );

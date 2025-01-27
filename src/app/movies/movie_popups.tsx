@@ -1,6 +1,4 @@
-import prisma from "@/app/_db/db";
-import { handlePrismaError } from "../_db/utils";
-import MovieDetailsDialog from "./movie_dialog";
+import MovieDetailsDialog from "./movie_details_dialog";
 import React from "react";
 import { getMovieDetailsWithScreenings } from "../_lib/movie/actions";
 
@@ -12,7 +10,7 @@ const MoviePopups = async ({ searchParams }: { searchParams: URLSearchParams }) 
 
     return (
         <React.Fragment>
-            <MovieDetailsDialog detailsData={movieDetails} />
+            <MovieDetailsDialog details={movieDetails} />
         </React.Fragment>
     )
 }

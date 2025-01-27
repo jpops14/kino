@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Grid, Button, Alert, Box } from "@mui/material";
+import { Card, CardContent, Typography, Grid, Alert, Box } from "@mui/material";
 
 const BookingsList = ({ bookings, limit }: { bookings: {
     id: number;
@@ -11,9 +11,12 @@ const BookingsList = ({ bookings, limit }: { bookings: {
     roomInfo: string | null;
     expired: boolean;
 }[], limit?: number }) => {
+
+    const displayedBookings = limit ? bookings.slice(0, limit) : bookings;
+
     return (
         <Grid container spacing={2} p={2}>
-            {bookings?.length ? bookings.map((booking) => (
+            {displayedBookings?.length ? displayedBookings.map((booking) => (
                 <Grid item xs={12} key={booking.id}>
                     <Card sx={{ borderRadius: 2, overflow: 'hidden', transition: 'transform 0.3s', '&:hover': { transform: 'scale(1.02)' }, boxShadow: 3 }}>
                         <CardContent sx={{ p: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: booking.expired ? 'grey.300' : 'background.paper' }}>
@@ -33,7 +36,7 @@ const BookingsList = ({ bookings, limit }: { bookings: {
                 </Grid>
             )) : (
                 <Grid item xs={12}>
-                    <Alert severity="info" sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column' }}> 
+                    <Alert severity="info" variant="outlined" sx={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column' }}> 
                         <Typography variant='h6'> No bookings found </Typography>
                     </Alert>
                 </Grid>

@@ -8,7 +8,7 @@ export default async function NavBar() {
 
     const session = await verifySession();
 
-    const pages = ['bookings', 'movies', 'screenings', 'news', 'events'];
+    const pages = ['bookings', 'movies', 'screenings', 'news', 'events', ...[session?.role === 'ADMIN' ? 'admin' : '']];
 
     return (
         <AppBar position="sticky">

@@ -12,8 +12,6 @@ import dayjs from "dayjs";
 export const editRoom = async (state, data: FormData) => {
     const session = await verifySession();
 
-    console.log("EDIT ACTION");
-    
     if (!session || session.role !== 'ADMIN') {
         redirect('/admin/rooms');
     }
@@ -28,7 +26,6 @@ export const editRoom = async (state, data: FormData) => {
     });
 
     if (!validationResult.success) {
-        console.log(validationResult.error.flatten().fieldErrors)
         return {
             errors: validationResult.error.flatten().fieldErrors,
         }
