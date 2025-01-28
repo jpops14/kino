@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Cinema management app",
 };
 
-export default function RootLayout({
+export default function Template({
   children,
 }: Readonly<{
   children: React.ReactNode;
