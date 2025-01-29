@@ -1,12 +1,10 @@
 import { verifySession } from "@/app/_lib/auth/session";
 import { Alert, Box, Button, Container, Paper, Typography } from "@mui/material";
 import React from "react";
-import { getUserBookings } from "@/app/_lib/booking/actions";
 import BookingsList from "./bookings_list";
 
 export default async function Page() {
   const session = await verifySession();
-  const userBookings = await getUserBookings();
 
   return (
     <Container maxWidth='lg'>
@@ -20,7 +18,7 @@ export default async function Page() {
               </Box>
             </Alert>
         ) : (
-          <><Typography variant='h2' textAlign={'center'}> Bookings </Typography><BookingsList bookings={userBookings} /></>
+          <><Typography variant='h2' textAlign={'center'}> Bookings </Typography><BookingsList /></>
         )}
       </Paper>
     </Container>

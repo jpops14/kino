@@ -1,21 +1,50 @@
 'use client'
 
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
 import { screening } from "@prisma/client";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { usePathname, useRouter } from "next/navigation";
+import dayjs from "dayjs";
 
-const Screenings = ({ searchParams, screenings } : { searchParams: URLSearchParams, screenings: screening[] }) => {    
+const Screenings = ({ searchParams, screenings } : { searchParams: URLSearchParams, screenings: {
+    id: number;
+    start: Date;
+    movie_id: number;
+    room_id: number;
+    roomName: string;
+    movieTitle: string;
+}[] }) => {    
     const pathname = usePathname()
     const router = useRouter();
     const paginationModel = { page: 0, pageSize: 10 };
     const columns: GridColDef<(typeof screenings)[number]>[] = [
         { field: 'id', headerName: 'ID', width: 90 },
-        { field: 'start', headerName: 'Start Time', width: 200 },
-        { field: 'movie_id', headerName: 'Movie ID', width: 200 },
-        { field: 'room_id', headerName: 'Room ID', width: 200 },
+        { field: 'start', valueFormatter: (value ) => dayjs(value).format('YYYY-MM-DD HH:mm'),  headerName: 'Start Time', width: 200 },
+        { field: 'movieTitle', headerName: 'Movie', width: 200 },
+        { 
+            field: 'actions', 
+            headerName: 'Actions', 
+            width: 150, 
+            renderCell: (params) => (
+                <>
+                    <IconButton onClick={() => triggerScreeningEditor(params)}>
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(params.row.id)}>
+                        <DeleteIcon />
+                    </IconButton>
+                </>
+            )
+        },
     ];
 
+    const handleDelete = (id: number) => {
+        // Implement delete functionality here
+        console.log(`Delete user with id: ${id}`);
+    };
+    
     const triggerScreeningEditor = (params?: { row: screening }) => {
         const updatedSearchParams = new URLSearchParams(searchParams.toString());
         updatedSearchParams.set('screening', params?.row?.id?.toString() || '');

@@ -1,30 +1,27 @@
 'use client'
 
 import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
-import { movie } from "@prisma/client";
+import { event } from "@prisma/client";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { usePathname, useRouter } from "next/navigation";
 
-const Movies = ({ searchParams, movies } : { searchParams: URLSearchParams, movies: movie[] }) => {    
+const Events = ({ searchParams, events } : { searchParams: URLSearchParams, events: event[] }) => {    
     const pathname = usePathname()
     const router = useRouter();
     const paginationModel = { page: 0, pageSize: 10 };
-    const columns: GridColDef<(typeof movies)[number]>[] = [
+    const columns: GridColDef<(typeof events)[number]>[] = [
         { field: 'id', headerName: 'ID', width: 90 },
-        { field: 'title', headerName: 'Title', width: 200 },
-        { field: 'director', headerName: 'Director', width: 200 },
-        { field: 'genre', headerName: 'Genre', width: 200 },
-        { field: 'year', headerName: 'Year', width: 200 },
-        { field: 'duration', headerName: 'Duration (m)', width: 200 },
+        { field: 'name', headerName: 'Name', width: 400 },
+        { field: 'description', headerName: 'Description', width: 400 },
         { 
             field: 'actions', 
             headerName: 'Actions', 
             width: 150, 
             renderCell: (params) => (
                 <>
-                    <IconButton onClick={() => triggerMovieEditor(params)}>
+                    <IconButton onClick={() => triggerEventEditor(params)}>
                         <EditIcon />
                     </IconButton>
                     <IconButton onClick={() => handleDelete(params.row.id)}>
@@ -35,29 +32,25 @@ const Movies = ({ searchParams, movies } : { searchParams: URLSearchParams, movi
         },
     ];
 
-    const handleDelete = (id: number) => {
-        // Implement delete functionality here
-        console.log(`Delete user with id: ${id}`);
-    };
-    const triggerMovieEditor = (params?: { row: movie }) => {
+    const triggerEventEditor = (params?: { row: event }) => {
         const updatedSearchParams = new URLSearchParams(searchParams.toString());
-        updatedSearchParams.set('movie', params?.row?.id?.toString() || '');
+        updatedSearchParams.set('event', params?.row?.id?.toString() || '');
         router.push(`${pathname}?${updatedSearchParams}`);
     };
 
     return (
         <Paper sx={{ p: 2, }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h4"> Manage Movies </Typography>
-                <Button variant="contained" onClick={() => triggerMovieEditor()}> Create movie </Button>
+                <Typography variant="h4"> Manage Events </Typography>
+                <Button variant="contained" onClick={() => triggerEventEditor()}> Create Event </Button>
             </Box>
             <Paper>
             <DataGrid
                 getRowId={(row) => row.id}
-                rows={movies}
+                rows={events}
                 columns={columns}
                 pageSizeOptions={[10, 25, 50]}
-                onRowClick={triggerMovieEditor}
+                onRowClick={triggerEventEditor}
                 initialState={{ pagination: { paginationModel } }}
             />
             </Paper>
@@ -65,4 +58,4 @@ const Movies = ({ searchParams, movies } : { searchParams: URLSearchParams, movi
     );
 }
 
-export default Movies;
+export default Events;

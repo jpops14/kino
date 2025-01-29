@@ -11,13 +11,13 @@ export const SignInDialog = ({ open, onClose }: { open: boolean, onClose: () => 
         if(state.success) {
             onClose();
         };
-    });
+    }, [state.success]);
 
     return (
         <Dialog open={open} onClose={onClose}>
             <Container maxWidth="xs">
                 <Box sx={{padding: 2}}>
-                    <Typography variant="h4" textAlign={'center'}>
+                    <Typography variant="h4" textAlign={'center'} sx={{mb: 2}}>
                         Sign in
                     </Typography>
                     <Box 
@@ -30,7 +30,7 @@ export const SignInDialog = ({ open, onClose }: { open: boolean, onClose: () => 
                         <TextField name="email" label="email address" fullWidth  sx={{ mb: 1 }} />
                         <ErrorList errors={state?.errors?.password} />
                         <TextField name="password" label="password" fullWidth type="password"  sx={{ mb: 1 }}/> 
-                        <ErrorList errors={state?.errors?.base} />
+                        <ErrorList errors={state?.errors?.general} />
                         <Button type="submit" disabled={pending} variant="contained" fullWidth>
                             {pending ? 'Submitting' : 'Sign in'}
                         </Button>

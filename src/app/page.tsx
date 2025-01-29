@@ -4,9 +4,9 @@ import { getUserBookings } from "@/app/_lib/booking/actions";
 import BookingsList from "./bookings/bookings_list";
 import { verifySession } from "./_lib/auth/session";
 import MoviesList from "./movies/movies_list";
+import NewsList from "./news/news_list";
 
 export default async function Page() {
-  const userBookings = await getUserBookings();
   const session = await verifySession();
 
   return (
@@ -16,13 +16,22 @@ export default async function Page() {
         {session && 
         <Paper elevation={2} sx={ { p: 2, my: 1 } }>
           <Typography variant='h4' textAlign={'center'} fontWeight='medium'> Your active bookings </Typography>
-          <BookingsList bookings={userBookings || []} limit={3}/>
+          <BookingsList limit={3}/>
           <Button href="/bookings" sx={{mx: 'auto'}}>
               <Typography variant='button'>
-                See all movies  
+                See all your active bookings  
               </Typography> 
            </Button>
         </Paper>}
+        <Paper elevation={2} sx={ { p: 2, my: 2 } }>
+          <Typography variant='h4' textAlign={'center'} fontWeight='medium'> Latest news </Typography>
+          <NewsList limit={3}/>
+          <Button href="/news" > 
+              <Typography variant='button'>
+                See all movies  
+              </Typography> 
+          </Button>
+        </Paper>
         <Paper elevation={2} sx={ { p: 2, my: 2 } }>
           <Typography variant='h4' textAlign={'center'} fontWeight='medium'> New movies </Typography>
           <MoviesList searchParams={new URLSearchParams()} limit={3}/>

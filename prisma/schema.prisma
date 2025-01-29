@@ -54,6 +54,7 @@ model screening {
   room     room     @relation(fields: [room_id], references: [id])
   room_id  Int
   bookings booking[]
+  events  event[]
 }
 
 model booking {
@@ -69,4 +70,21 @@ model booking {
   transaction_id String?
   payment_expires DateTime
   createdAt  DateTime @default(now())
+}
+
+model event {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String
+  createdAt   DateTime    @default(now())
+  screenings  screening[]
+}
+
+model news {
+  id          Int         @id @default(autoincrement())
+  title       String
+  subtitle    String
+  content     String
+  publication DateTime   @default(now())
+  createdAt   DateTime    @default(now())
 }

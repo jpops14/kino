@@ -5,10 +5,12 @@ import { SignUpDialog } from "./sign_up_dialog";
 import { SignInDialog } from "./sign_in_dialog";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SignOutDialog } from "./sign_out_dialog";
+import { DeleteDialog } from "../_components/dialogs/delete_dialog";
 
 const AuthPopups = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const pathname = usePathname();
 
     const signIn = searchParams.get("sign_in");
     const signUp = searchParams.get("sign_up");
@@ -17,7 +19,7 @@ const AuthPopups = () => {
     const onClose = (param: string) => () => {
         const updatedParams = new URLSearchParams(searchParams);
         updatedParams.delete(param);
-        router.back();
+        router.push(`${pathname}?${updatedParams.toString()}`);
     }
 
     return (

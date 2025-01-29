@@ -1,21 +1,20 @@
 import { Container } from "@mui/material";;
 import React from "react";
-import Rooms from "./rooms";
-import RoomPopups from "./room_popups";
-import { handlePrismaError } from "@/app/_db/utils";
+import Events from "./events";
+import EventPopups from "./event_popups";
 import prisma from "@/app/_db/db";
-import { getAdminRooms } from "@/app/_lib/room/actions";
+import { handlePrismaError } from "@/app/_db/utils";
 
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
 
   const paramsRecord = await searchParams;
   const params = new URLSearchParams(paramsRecord);
-  const rooms = await getAdminRooms() || []
+  const events = await prisma.event.findMany().catch(handlePrismaError);
 
   return (
     <Container>
-      <RoomPopups searchParams={params}/>
-      <Rooms rooms={rooms} searchParams={params}/>
+      <EventPopups searchParams={params}/>
+      <Events events={events} searchParams={params}/>
     </Container>
   );
 }

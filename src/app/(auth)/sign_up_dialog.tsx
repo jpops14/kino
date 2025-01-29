@@ -14,8 +14,8 @@ export const SignUpDialog = ({ open, onClose }: { open: boolean, onClose: () => 
     });
     return (
         <Dialog open={open} onClose={onClose}>
-            <Container maxWidth="xs" sx={ {padding: 2}}>
-                <Typography variant="h4" textAlign={'center'}>
+            <Container maxWidth="xs" sx={{ padding: 2 }}>
+                <Typography variant="h4" textAlign={'center'} sx={{mb: 2}}>
                     Sign up
                 </Typography>
                 <Box 
@@ -25,7 +25,7 @@ export const SignUpDialog = ({ open, onClose }: { open: boolean, onClose: () => 
                     }}
                 >
                     <ErrorList errors={state?.errors?.name} />
-                    <TextField name="name" label="Name" fullWidth autoFocus sx={{ my: 1 }}/>
+                    <TextField name="name" label="Full name" fullWidth autoFocus sx={{ my: 1 }}/>
                     <ErrorList errors={state?.errors?.email} />
                     <TextField name="email" label="email address" fullWidth  sx={{ my: 1 }} />
                     <ErrorList errors={state?.errors?.password} />

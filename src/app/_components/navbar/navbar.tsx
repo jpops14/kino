@@ -37,7 +37,7 @@ export default async function NavBar() {
                     <Button
                         key={page}
                         href={`/${page}`}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
+                        sx={{ my: 2, color: 'white', display: 'block', fontWeight: 'bold' }}
                     >
                         {page}
                     </Button>

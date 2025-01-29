@@ -32,7 +32,7 @@ const MovieForm = ({ initialValues }: { initialValues: movie | null}) => {
                         {pending ? 'Submitting' : initialValues ? 'Update' : 'Create'}
                     </Button>
                 </Box>
-             </Paper>
+             </Paper> 
     )
 }
 

@@ -32,8 +32,8 @@ export default async function Template({
           bgcolor: 'primary.main',
           color: 'white'
         }}>
-            <Typography> ADMIN PANEL </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', alignItems: 'center', borderRadius: 10 }}>
+            <Typography fontWeight='bold'> ADMIN PANEL </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', alignItems: 'center', mt: 1, borderRadius: 10 }}>
                 {pages.map((page, index) => (
                     <Button
                         variant="contained"
@@ -49,7 +49,8 @@ export default async function Template({
                             borderBottomRightRadius: index === pages.length - 1 ? 10 : 0,
                             '&:hover': {
                                 bgcolor: 'white',
-                            }
+                            },
+                            fontWeight: 'bold',
                         }} 
                     >
                         {page}

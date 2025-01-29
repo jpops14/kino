@@ -24,7 +24,7 @@ const RoomEditor = ({ roomData }: { roomData: room | null }) => {
                 id: roomData?.id,
                 name: roomData?.name || '',
                 layout: roomData?.layout || 
-                '[\n   []\n   []\n   []\n]',
+                '[\n   [],\n   [],\n   []\n]',
                 information: roomData?.information || '',
             },
         }

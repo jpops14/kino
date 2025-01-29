@@ -14,7 +14,7 @@ const MovieScreenings = ({ screenings, fullDate }: {
             <Button 
                 key={screening.id} 
                 variant="contained" 
-                color={screening.full ? 'primary' : "success"}
+                color={screening.full ? 'primary' : "success"} 
                 disabled={screening.full}
                 href={`/bookings/${screening.id}`}
             >

@@ -72,3 +72,32 @@ export const editRoom = async (state, data: FormData) => {
         }
     }
 }
+
+export const getAdminRooms = async () => {
+    const session = await verifySession();
+    if (!session) { 
+        redirect('/sign_in');
+    }
+    if (session.role !== 'ADMIN') {
+        redirect('/');
+    }
+
+    return prisma.room.findMany().catch(handlePrismaError);
+
+}
+
+export const deleteRoom = async (id: number) => {
+    const session = await verifySession();
+
+    if (!session) {
+        redirect('/sign_in');
+    }
+
+    if (session.role !== 'ADMIN') {
+        redirect('/');
+    }
+
+    return await prisma.room.delete({
+        where: { id: id }
+    }).catch(handlePrismaError);
+};

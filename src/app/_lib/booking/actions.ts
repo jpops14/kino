@@ -189,7 +189,7 @@ export const confirmBookingPayment = async (bookingId: number, transactionId: st
     }
 };
 
-export const getUserBookings = async () => {
+export const getUserBookings = async (limit?: number) => {
     const session = await verifySession();
 
     if (!session) {
@@ -227,19 +227,20 @@ export const getUserBookings = async () => {
             screening: {
                 start: 'desc'
             }
-        }})
-        .then((bookings) => bookings.map((booking) => (
-            {
-                id: booking.id,
-                seats: JSON.parse(booking.seats) as string[],
-                paid: booking.paid,
-                seats_count: booking.seats_count,
-                start: booking.screening.start,
-                title: booking.screening.movie.title,
-                room: booking.screening.room.name,
-                roomInfo: booking.screening.room.information,
-                expired: ((new Date()) > booking.screening.start),
-            }
+        },
+        take: limit
+    }).then((bookings) => bookings.map((booking) => (
+        {
+            id: booking.id,
+            seats: JSON.parse(booking.seats) as string[],
+            paid: booking.paid,
+            seats_count: booking.seats_count,
+            start: booking.screening.start,
+            title: booking.screening.movie.title,
+            room: booking.screening.room.name,
+            roomInfo: booking.screening.room.information,
+            expired: ((new Date()) > booking.screening.start),
+        }
         )))
         .catch(handlePrismaError);
 }

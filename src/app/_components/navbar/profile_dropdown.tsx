@@ -2,24 +2,23 @@
 
 import { SessionUser } from "@/app/_lib/auth/session"
 import { Avatar, Box, IconButton, Link, Menu, MenuItem } from "@mui/material"
-import { useRouter } from "next/navigation";
-import React from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect } from "react"
 
 
 const  ProfileDropdown = ({ session }: { session:SessionUser | null }) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const pathname = usePathname();;
     const handleOpenProfileMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
     const handleMenuClose = () => setAnchorEl(null);
-    const handleOption=(option: 'sign_in' | 'sign_up' | 'sign_out' )=> {
+
+    const handleAuthOption = (option: 'sign_in' | 'sign_up' | 'sign_out') => {
         handleMenuClose();
-        if (option === 'sign_in'){ 
-            router.push('/?sign_in');
-        } else if (option === 'sign_up') {
-            router.push('/?sign_up');
-        } else if (option === 'sign_out') {
-            router.push('/?sign_out');
-        }
+        const updatedParams = new URLSearchParams(searchParams);
+        updatedParams.set(option, '');
+        router.push(`${pathname}?${updatedParams.toString()}`);
     }
 
     const anchorId = 'profile-menu';
@@ -56,10 +55,10 @@ const  ProfileDropdown = ({ session }: { session:SessionUser | null }) => {
                 onClose={handleMenuClose}
             >
                 {session ? (
-                    <MenuItem onClick={() => handleOption('sign_out')}>Sign out</MenuItem> 
+                    <MenuItem onClick={() => handleAuthOption('sign_out')}>Sign out</MenuItem> 
                 ) : [
-                        <MenuItem key="in" onClick={() => handleOption('sign_in')}>Sign in</MenuItem>,
-                        <MenuItem key="up" onClick={() => handleOption('sign_up')}>Sign up</MenuItem>
+                        <MenuItem key="in" onClick={() => handleAuthOption('sign_in')}>Sign in</MenuItem>,
+                        <MenuItem key="up" onClick={() => handleAuthOption('sign_up')}>Sign up</MenuItem>
                     ]
                 }
             </Menu>

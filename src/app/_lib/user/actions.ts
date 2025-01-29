@@ -71,3 +71,50 @@ export const editUser = async (state, formData: FormData) => {
         }
     }
 }
+
+export const getAdminUsers = async () => {
+    const session = await verifySession();
+    if(!session) {
+        redirect('/sign_in')
+    }
+    if(session.role !== 'ADMIN') {
+        redirect('/')
+    }
+    const users = await prisma.user.findMany({
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+        }
+    }).catch(handlePrismaError);
+
+    return users;
+}
+
+export const getUser = async (id: number) => {
+    const session = await verifySession();
+    if(!session) {
+        redirect('/sign_in')
+    }
+    if(session.role !== 'ADMIN') {
+        redirect('/')
+    }
+    return await prisma.user.findUnique({ where: { id: id }}).catch(handlePrismaError);
+}
+
+export const deleteUser = async (id: number) => {
+    const session = await verifySession();
+    
+    if (!session) {
+        redirect('/sign_in');
+    }
+    
+    if (session.role !== 'ADMIN') {
+        redirect('/');
+    }
+
+    return await prisma.user.delete({
+        where: { id: id }
+    }).catch(handlePrismaError);
+};

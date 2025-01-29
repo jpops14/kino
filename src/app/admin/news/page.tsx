@@ -1,21 +1,20 @@
-import { Container } from "@mui/material";;
+import { Container } from "@mui/material";
 import React from "react";
-import Rooms from "./rooms";
-import RoomPopups from "./room_popups";
+import News from "./news";
+import NewsPopups from "./news_popups";
 import { handlePrismaError } from "@/app/_db/utils";
 import prisma from "@/app/_db/db";
-import { getAdminRooms } from "@/app/_lib/room/actions";
 
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
 
   const paramsRecord = await searchParams;
   const params = new URLSearchParams(paramsRecord);
-  const rooms = await getAdminRooms() || []
+  const news = await prisma.news.findMany().catch(handlePrismaError);
 
   return (
     <Container>
-      <RoomPopups searchParams={params}/>
-      <Rooms rooms={rooms} searchParams={params}/>
+      <NewsPopups searchParams={params}/>
+      <News news={news} searchParams={params}/>
     </Container>
   );
 }

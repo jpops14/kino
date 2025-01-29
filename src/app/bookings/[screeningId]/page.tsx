@@ -11,7 +11,7 @@ export default async function Page({ searchParams, params }: { searchParams: Pro
   const screeningData = await getBookingScreeningData(screeningId);
 
   return (
-    <Container maxWidth='lg'>
+    <Container maxWidth={false}>
       <Paper sx={{ height: '100vh', p: 2 }}>
       {!session ? (
             <Alert severity="info" sx={{ width: 'lg', my: 'auto', justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column' }}> 
@@ -23,11 +23,14 @@ export default async function Page({ searchParams, params }: { searchParams: Pro
             </Alert>
         ) : (
           screeningData ? (
-          <React.Fragment>
-            <MovieDetails details={screeningData.movie} />
-            <Divider sx={{ my: 1 }} />
-            <SeatPicker screeningData={screeningData} />
-          </React.Fragment>
+            <React.Fragment>
+              <Box maxWidth='lg' sx={{ mx: 'auto', gap: 1 }}>
+                <MovieDetails details={screeningData.movie} />
+                <Divider sx={{ my: 1 }} />
+              </Box>
+              <SeatPicker screeningData={screeningData} />
+            </React.Fragment>
+          
           ) : (
             <Alert severity="error" sx={{ width: 'lg'}}>
               <Typography > An error occurred while loading the screening data </Typography>

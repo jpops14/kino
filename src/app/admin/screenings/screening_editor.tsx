@@ -161,7 +161,7 @@ const ScreeningEditor = ({ screeningData, movies, rooms }: {
                         />
                     </LocalizationProvider>
                     <ErrorList errors={state?.errors?.price} />
-                    <TextField label="Ticket price" type='number' required defaultValue={screeningData?.price || 0} fullWidth  sx={{ my: 1 }} {...register('price')} />
+                    <TextField label="Ticket price (EUR)" type='number' required defaultValue={screeningData?.price || 0} fullWidth  sx={{ my: 1 }} {...register('price')} />
                     <Alert icon={false} severity="info" variant="outlined" sx={{ my: 2, width: 'full' }}>
                         <Typography variant="h6" sx={{ alignSelf: 'center', mr: 1 }}> Summary </Typography>
                         {selectedRoom && (<Typography variant="h6" sx={{ alignSelf: 'start', mr: 1 }}> Screening room capacity: {selectedRoom.capacity} </Typography>)}

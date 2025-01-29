@@ -118,7 +118,7 @@ export const getBookingScreeningData = async (screeningId: string) => {
     const session = await verifySession();
 
     if (!session) {
-        redirect('/');
+        return null;
     }
 
     await prisma.booking.deleteMany({
@@ -231,7 +231,69 @@ export const getScreenings = async (date: Date) => prisma.screening.findMany({
     })
 )).catch(handlePrismaError);
 
-export const getAdminScreenings = async () => prisma.screening.findMany().then((screenings) => screenings.map((screening) => ({
-    ...screening,
-    price: Number(screening.price),
-}))).catch(handlePrismaError);
+export const getAdminScreenings = async () => { 
+    const session = await verifySession();
+    if (!session) { 
+        redirect('/sign_in');
+    }
+    if (session.role !== 'ADMIN') {
+        redirect('/');
+    }
+
+    return prisma.screening.findMany({
+        select: {
+            id: true,
+            start: true,
+            movie: {
+                select: {
+                    title: true,
+                }
+            },
+            room: {
+                select: {
+                    name: true,
+                }
+            },
+            price: true,
+        }
+    }).then((screenings) =>  screenings.map((screening) => ({
+        ...screening,
+        movieTitle: screening.movie.title,
+        roomName: screening.room.name,
+        price: Number(screening.price),
+    }))).catch(handlePrismaError);
+}
+
+export const getScreening = async (id: number) => {
+    const session = await verifySession();
+    if (!session) {
+        redirect('/sign_in');
+    }
+    if (session.role !== 'ADMIN') {
+        redirect('/');
+    }
+    return prisma.screening.findFirst({
+        where: {
+            id: id,
+        }
+    }).then((screening) => ({
+        ...screening,
+        price: Number(screening.price),
+    })).catch(handlePrismaError);
+}
+
+export const deleteScreening = async (id: number) => {
+    const session = await verifySession();
+
+    if (!session) {
+        redirect('/sign_in');
+    }
+
+    if (session.role !== 'ADMIN') {
+        redirect('/');
+    }
+
+    return await prisma.screening.delete({
+        where: { id: id }
+    }).catch(handlePrismaError);
+};

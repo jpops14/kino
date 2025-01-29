@@ -154,3 +154,19 @@ export const getMovieDetailsWithScreenings = async (id: number) => prisma.movie.
         full: screening.bookings.reduce((acc, booking) => acc + booking.seats_count, 0) >= screening.room.capacity,
     }))
 }) : null).catch(handlePrismaError);
+
+export const deleteMovie = async (id: number) => {
+    const session = await verifySession();
+
+    if (!session) {
+        redirect('/sign_in');
+    }
+
+    if (session.role !== 'ADMIN') {
+        redirect('/');
+    }
+
+    return await prisma.movie.delete({
+        where: { id: id }
+    }).catch(handlePrismaError);
+};

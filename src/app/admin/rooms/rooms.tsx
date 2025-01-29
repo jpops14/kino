@@ -1,7 +1,9 @@
 'use client'
 
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
 import { room } from "@prisma/client";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -13,7 +15,27 @@ const Rooms = ({ searchParams, rooms } : { searchParams: URLSearchParams, rooms:
         { field: 'id', headerName: 'ID', width: 90 },
         { field: 'name', headerName: 'Name', width: 200 },
         { field: 'capacity', headerName: 'Capacity', width: 200 },
+        { 
+            field: 'actions', 
+            headerName: 'Actions', 
+            width: 150, 
+            renderCell: (params) => (
+                <>
+                    <IconButton onClick={() => triggerRoomEditor(params)}>
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(params.row.id)}>
+                        <DeleteIcon />
+                    </IconButton>
+                </>
+            )
+        },
     ];
+
+    const handleDelete = (id: number) => {
+        // Implement delete functionality here
+        console.log(`Delete user with id: ${id}`);
+    };
 
     const triggerRoomEditor = (params?: { row: room }) => {
         const updatedSearchParams = new URLSearchParams(searchParams.toString());
