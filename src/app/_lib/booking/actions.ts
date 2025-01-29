@@ -225,7 +225,7 @@ export const getUserBookings = async (limit?: number) => {
         },
         orderBy: {
             screening: {
-                start: 'desc'
+                start: 'asc'
             }
         },
         take: limit

@@ -3,9 +3,14 @@ import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { role } from '../user/definitons';
 
-const secret = "key"
+const sessionSecret = process.env.SESSION_SECRET
 
-const key = new TextEncoder().encode(secret)
+const key = new TextEncoder().encode(sessionSecret)
+
+const password = process.env.PASSWORD_SECRET;
+const passwordSalt = process.env.PASSWORD_SALT;
+
+
 
 const cookie = {
     name: "session",

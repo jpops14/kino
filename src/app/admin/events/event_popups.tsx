@@ -19,6 +19,9 @@ const EventPopups = async ({ searchParams }: { searchParams: URLSearchParams }) 
     }}).catch(handlePrismaError) : null;
 
     const screenings = await prisma.screening.findMany({
+        where: {
+            start: { gte: new Date() }
+        },
         select: {
             start: true,
             id: true,
@@ -32,9 +35,7 @@ const EventPopups = async ({ searchParams }: { searchParams: URLSearchParams }) 
             roomName: screening.room.name,
             start: screening.start,
         }));
-    }).catch((error) => {
-        return [];
-    });
+    }).catch(handlePrismaError) || [];
 
     console.log(screenings);
 
