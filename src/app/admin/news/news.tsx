@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { usePathname, useRouter } from "next/navigation";
+import { handleDelete } from "@/app/_components/dialogs/delete_dialog";
 
 const News = ({ searchParams, news } : { searchParams: URLSearchParams, news: news[] }) => {    
     const pathname = usePathname()
@@ -25,18 +26,13 @@ const News = ({ searchParams, news } : { searchParams: URLSearchParams, news: ne
                     <IconButton onClick={() => triggerNewsEditor(params)}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton onClick={() => handleDelete(params.row.id)}>
+                    <IconButton onClick={() => handleDelete(router, pathname, searchParams, params.row.id)}>
                         <DeleteIcon />
                     </IconButton>
                 </>
             )
         },
     ];
-
-    const handleDelete = (id: number) => {
-        // Implement delete functionality here
-        console.log(`Delete user with id: ${id}`);
-    };
 
     const triggerNewsEditor = (params?: { row: news }) => {
         const updatedSearchParams = new URLSearchParams(searchParams.toString());
@@ -56,7 +52,6 @@ const News = ({ searchParams, news } : { searchParams: URLSearchParams, news: ne
                 rows={news}
                 columns={columns}
                 pageSizeOptions={[10, 25, 50]}
-                onRowClick={triggerNewsEditor}
                 initialState={{ pagination: { paginationModel } }}
             />
             </Paper>

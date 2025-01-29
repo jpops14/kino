@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { user } from "@prisma/client";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { usePathname, useRouter } from "next/navigation";
+import { handleDelete } from "@/app/_components/dialogs/delete_dialog";
 
 
  const Users = ({ searchParams, users } : { searchParams: URLSearchParams, users: user[] }) => {    
@@ -26,18 +27,13 @@ import { usePathname, useRouter } from "next/navigation";
                     <IconButton onClick={() => triggerUserEditor({ row: params.row })}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton onClick={() => handleDelete(params.row.id)}>
+                    <IconButton onClick={() => handleDelete(router, pathname, searchParams, params.row.id)}>
                         <DeleteIcon />
                     </IconButton>
                 </>
             )
         },
     ];
-
-    const handleDelete = (id: number) => {
-        // Implement delete functionality here
-        console.log(`Delete user with id: ${id}`);
-    };
 
     const triggerUserEditor = (params?: { row: user}) => {
         const updatedSearchParams = new URLSearchParams(searchParams.toString());
@@ -57,7 +53,6 @@ import { usePathname, useRouter } from "next/navigation";
                 rows={users}
                 columns={columns}
                 pageSizeOptions={[10, 25, 50]}
-                onRowClick={triggerUserEditor}
                 initialState={{ pagination: { paginationModel } }}
             />
             </Paper>

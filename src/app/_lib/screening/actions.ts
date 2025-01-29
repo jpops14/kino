@@ -293,7 +293,7 @@ export const deleteScreening = async (id: number) => {
         redirect('/');
     }
 
-    return await prisma.screening.delete({
+    await prisma.screening.delete({
         where: { id: id }
     }).catch(handlePrismaError);
 };

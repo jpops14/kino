@@ -2,6 +2,8 @@ import prisma from "@/app/_db/db";
 import { handlePrismaError } from "@/app/_db/utils";
 import React from "react";
 import EventEditor from "./event_editor";
+import { DeleteDialog } from "@/app/_components/dialogs/delete_dialog";
+import { deleteEvent } from "@/app/_lib/event/actions";
 
 const EventPopups = async ({ searchParams }: { searchParams: URLSearchParams }) => {
 
@@ -39,6 +41,7 @@ const EventPopups = async ({ searchParams }: { searchParams: URLSearchParams }) 
     return (
         <React.Fragment>
             {event !== null ? <EventEditor screenings={screenings} eventData={editEvent} /> : null}
+            <DeleteDialog onDelete={deleteEvent} />
         </React.Fragment>
     )
 }

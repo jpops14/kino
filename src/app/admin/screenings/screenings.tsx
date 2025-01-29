@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { usePathname, useRouter } from "next/navigation";
 import dayjs from "dayjs";
+import { handleDelete } from "@/app/_components/dialogs/delete_dialog";
 
 const Screenings = ({ searchParams, screenings } : { searchParams: URLSearchParams, screenings: {
     id: number;
@@ -32,18 +33,13 @@ const Screenings = ({ searchParams, screenings } : { searchParams: URLSearchPara
                     <IconButton onClick={() => triggerScreeningEditor(params)}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton onClick={() => handleDelete(params.row.id)}>
+                    <IconButton onClick={() => handleDelete(router, pathname, searchParams, params.row.id)}>
                         <DeleteIcon />
                     </IconButton>
                 </>
             )
         },
     ];
-
-    const handleDelete = (id: number) => {
-        // Implement delete functionality here
-        console.log(`Delete user with id: ${id}`);
-    };
     
     const triggerScreeningEditor = (params?: { row: screening }) => {
         const updatedSearchParams = new URLSearchParams(searchParams.toString());
@@ -63,7 +59,6 @@ const Screenings = ({ searchParams, screenings } : { searchParams: URLSearchPara
                 rows={screenings}
                 columns={columns}
                 pageSizeOptions={[10, 25, 50]}
-                onRowClick={triggerScreeningEditor}
                 initialState={{ pagination: { paginationModel } }}
             />
             </Paper>

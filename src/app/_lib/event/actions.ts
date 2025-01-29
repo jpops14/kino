@@ -147,7 +147,7 @@ export const deleteEvent = async (id: number) => {
         redirect('/');
     }
 
-    return await prisma.event.delete({
+    await prisma.event.delete({
         where: { id: id }
     }).catch(handlePrismaError);
 };

@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { usePathname, useRouter } from "next/navigation";
+import { handleDelete } from "@/app/_components/dialogs/delete_dialog";
 
 const Movies = ({ searchParams, movies } : { searchParams: URLSearchParams, movies: movie[] }) => {    
     const pathname = usePathname()
@@ -16,8 +17,8 @@ const Movies = ({ searchParams, movies } : { searchParams: URLSearchParams, movi
         { field: 'title', headerName: 'Title', width: 200 },
         { field: 'director', headerName: 'Director', width: 200 },
         { field: 'genre', headerName: 'Genre', width: 200 },
-        { field: 'year', headerName: 'Year', width: 200 },
-        { field: 'duration', headerName: 'Duration (m)', width: 200 },
+        { field: 'year', headerName: 'Year', width: 100 },
+        { field: 'duration', headerName: 'Duration (m)', width: 100 },
         { 
             field: 'actions', 
             headerName: 'Actions', 
@@ -27,7 +28,7 @@ const Movies = ({ searchParams, movies } : { searchParams: URLSearchParams, movi
                     <IconButton onClick={() => triggerMovieEditor(params)}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton onClick={() => handleDelete(params.row.id)}>
+                    <IconButton onClick={() => handleDelete(router, pathname, searchParams, params.row.id)}>
                         <DeleteIcon />
                     </IconButton>
                 </>
@@ -35,10 +36,6 @@ const Movies = ({ searchParams, movies } : { searchParams: URLSearchParams, movi
         },
     ];
 
-    const handleDelete = (id: number) => {
-        // Implement delete functionality here
-        console.log(`Delete user with id: ${id}`);
-    };
     const triggerMovieEditor = (params?: { row: movie }) => {
         const updatedSearchParams = new URLSearchParams(searchParams.toString());
         updatedSearchParams.set('movie', params?.row?.id?.toString() || '');
@@ -57,7 +54,6 @@ const Movies = ({ searchParams, movies } : { searchParams: URLSearchParams, movi
                 rows={movies}
                 columns={columns}
                 pageSizeOptions={[10, 25, 50]}
-                onRowClick={triggerMovieEditor}
                 initialState={{ pagination: { paginationModel } }}
             />
             </Paper>

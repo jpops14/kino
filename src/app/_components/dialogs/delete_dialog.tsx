@@ -1,7 +1,15 @@
 'use client'
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from "@mui/material";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+export const handleDelete = (router: AppRouterInstance, pathname: string, searchParams: URLSearchParams, id: number) => {
+    const updatedSearchParams = new URLSearchParams(searchParams.toString());
+    updatedSearchParams.set('delete', id.toString());
+    router.push(`${pathname}?${updatedSearchParams}`);
+}
+
 
 export const DeleteDialog = ({onDelete}: {onDelete: (id: number) => Promise<void>}) => {
     const params = useSearchParams();

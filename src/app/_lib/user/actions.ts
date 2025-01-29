@@ -114,7 +114,7 @@ export const deleteUser = async (id: number) => {
         redirect('/');
     }
 
-    return await prisma.user.delete({
+     await prisma.user.delete({
         where: { id: id }
     }).catch(handlePrismaError);
 };

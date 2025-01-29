@@ -97,7 +97,7 @@ export const deleteNews = async (id: number) => {
         redirect('/');
     }
 
-    return await prisma.news.delete({
+    await prisma.news.delete({
         where: { id: id }
     }).catch(handlePrismaError);
 };

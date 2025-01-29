@@ -6,6 +6,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { usePathname, useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { handleDelete } from "@/app/_components/dialogs/delete_dialog";
 
 const Events = ({ searchParams, events } : { searchParams: URLSearchParams, events: event[] }) => {    
     const pathname = usePathname()
@@ -24,7 +26,7 @@ const Events = ({ searchParams, events } : { searchParams: URLSearchParams, even
                     <IconButton onClick={() => triggerEventEditor(params)}>
                         <EditIcon />
                     </IconButton>
-                    <IconButton onClick={() => handleDelete(params.row.id)}>
+                    <IconButton onClick={() => handleDelete(router, pathname, searchParams, params.row.id)}>
                         <DeleteIcon />
                     </IconButton>
                 </>
@@ -50,7 +52,6 @@ const Events = ({ searchParams, events } : { searchParams: URLSearchParams, even
                 rows={events}
                 columns={columns}
                 pageSizeOptions={[10, 25, 50]}
-                onRowClick={triggerEventEditor}
                 initialState={{ pagination: { paginationModel } }}
             />
             </Paper>

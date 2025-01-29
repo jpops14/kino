@@ -97,7 +97,7 @@ export const deleteRoom = async (id: number) => {
         redirect('/');
     }
 
-    return await prisma.room.delete({
+    await prisma.room.delete({
         where: { id: id }
     }).catch(handlePrismaError);
 };

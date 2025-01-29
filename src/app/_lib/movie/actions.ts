@@ -166,7 +166,7 @@ export const deleteMovie = async (id: number) => {
         redirect('/');
     }
 
-    return await prisma.movie.delete({
+    await prisma.movie.delete({
         where: { id: id }
     }).catch(handlePrismaError);
 };
