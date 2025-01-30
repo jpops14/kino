@@ -27,10 +27,6 @@ export const editEvent = async (state, formData: FormData) => {
 
     const validationResult = editEventSchema.safeParse(formValues);
 
-    console.log(validationResult);
-    console.log(formValues)
-    console.log(validationResult.error?.flatten().fieldErrors)
-
     if (!validationResult.success) {
         return {
             errors: validationResult.error.flatten().fieldErrors,

@@ -9,8 +9,6 @@ const EventPopups = async ({ searchParams }: { searchParams: URLSearchParams }) 
 
     const event = searchParams.get("event");
 
-    console.log(event);
-
     const editEvent = event ? await prisma.event.findUnique({ where: { id: parseInt(event) }, select: {
         id: true,
         name: true,
@@ -36,8 +34,6 @@ const EventPopups = async ({ searchParams }: { searchParams: URLSearchParams }) 
             start: screening.start,
         }));
     }).catch(handlePrismaError) || [];
-
-    console.log(screenings);
 
     return (
         <React.Fragment>

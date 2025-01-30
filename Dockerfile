@@ -17,6 +17,7 @@ WORKDIR /app
 
 # Copy only the necessary files from the build stage
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/.env ./
@@ -25,4 +26,4 @@ COPY --from=builder /app/.env ./
 EXPOSE 3000
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:migrate:seed:prod"]

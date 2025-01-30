@@ -8,6 +8,13 @@ services:
       - prisma-network
     ports:
       - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 60s
+
   server:
     build: 
       context: .  
@@ -20,10 +27,9 @@ services:
       db:
         condition: service_healthy
     env_file:
-      - .env
+      - ".env"
     networks:
       - prisma-network
-
 
 networks:
   prisma-network:

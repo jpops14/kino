@@ -2,11 +2,13 @@
   "name": "kino",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "start:migrate:seed:prod": "prisma migrate deploy && node prisma/init_admin.js && npm run start"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",

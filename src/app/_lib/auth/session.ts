@@ -2,18 +2,22 @@ import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import 'server-only';
 import { role } from '../user/definitons';
+import bcrypt from 'bcrypt';
 
 const sessionSecret = process.env.SESSION_SECRET
 
 const key = new TextEncoder().encode(sessionSecret)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const _password = process.env.PASSWORD_SECRET;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const _passwordSalt = process.env.PASSWORD_SALT;
+const saltRounds = parseInt(process.env.PASSWORD_SALT_ROUNDS!) || 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 export const hashPassword = async (password: string) => {
-    return password;
+    return bcrypt.hash(password, salt);
+}
+
+export const verifyPassword = async (password: string, hash: string) => {
+    return bcrypt.compare(password, hash);
 }
 
 const cookie = {

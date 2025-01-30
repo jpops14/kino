@@ -3,7 +3,7 @@
 import prisma from "@/app/_db/db";
 import { SignInFormSchema, SignUpFormSchema } from "./definitons"
 import { handlePrismaError } from "@/app/_db/utils";
-import { createSession, deleteSession, hashPassword } from "./session";
+import { createSession, deleteSession, hashPassword, verifyPassword } from "./session";
 
 export const signUp = async (state, formData: FormData) => {
     
@@ -61,14 +61,11 @@ export const signIn = async (state, formData: FormData) => {
     }
 
     const { email, password } = validationResult.data;
-    
-    const hashedPassword = await hashPassword(password);
 
     const user = await prisma.user.findFirst(
         {
             where: {
                 email: email,
-                password: hashedPassword,
             }
         }
     ).then(
@@ -82,6 +79,16 @@ export const signIn = async (state, formData: FormData) => {
     )
 
     if (!user) {
+        return {
+            errors: {
+                general: 'Invalid credentials',
+            }
+        }
+    }
+
+    const verified = await verifyPassword(password, user.password);
+
+    if(!verified) {
         return {
             errors: {
                 general: 'Invalid credentials',

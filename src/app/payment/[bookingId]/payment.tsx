@@ -43,11 +43,10 @@ const Payment = ({ bookingData }: { bookingData: {
     }
 
     const onApprove = (data: OnApproveData, actions: OnApproveActions) => {
-        if (dayjs(bookingData.payment_expires).isAfter(dayjs().subtract(5, 'seconds'))) {
+        if (dayjs(bookingData.payment_expires).isBefore(dayjs().subtract(5, 'seconds'))) {
             setState({ error: 'Payment has expired' });
+            return;
         }
-
-        return Promise.reject();
 
         return actions?.order?.capture().then((details) => {
             return confirmBookingPayment(bookingData.id, details.id!);
