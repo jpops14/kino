@@ -1,11 +1,11 @@
 'use client'
 
+import ErrorList from "@/app/_components/form/error_list";
+import { editMovie } from "@/app/_lib/movie/actions";
+import { Box, Button, Dialog, TextField, Typography } from "@mui/material";
 import { movie } from "@prisma/client";
 import { redirect, usePathname, useSearchParams } from "next/navigation";
-import { Box, Button, Dialog, MenuItem, TextField, Typography } from "@mui/material";
-import { editMovie } from "@/app/_lib/movie/actions";
 import { useActionState, useEffect } from "react";
-import ErrorList from "@/app/_components/form/error_list";
 
 const MovieEditor = ({ movieData }: { movieData: movie | null }) => { 
 

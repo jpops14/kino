@@ -2,10 +2,10 @@
 
 import prisma from "@/app/_db/db";
 import { handlePrismaError } from "@/app/_db/utils";
-import { editScreeningSchema } from "./definitons";
-import dayjs, { Dayjs } from "dayjs";
-import { verifySession } from "../auth/session";
+import dayjs from "dayjs";
 import { redirect } from "next/navigation";
+import { verifySession } from "../auth/session";
+import { editScreeningSchema } from "./definitons";
 
 export const editScreening = async (state, formData: FormData) => {
     const session = await verifySession();
@@ -179,7 +179,9 @@ export const getBookingScreeningData = async (screeningId: string) => {
                 movie: screening.movie,
                 lockedSeats: new Set(screening.bookings.map((booking) => JSON.parse(booking.seats)).flat())
             };
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         }).catch((e) => null);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
         redirect('/');
     }

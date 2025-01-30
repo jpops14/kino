@@ -1,10 +1,9 @@
 import { Container, Paper, Typography } from "@mui/material";
 
-import React from "react";
 import { getEventsWithScreenings } from "../_lib/event/actions";
 import EventWithScreenings from "./event_with_screenings";
 
-export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
+export default async function Page({ }: { searchParams: Promise<Record<string, string>> }) {
   const events = await getEventsWithScreenings()
 
   return (

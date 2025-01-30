@@ -1,10 +1,9 @@
+import { DeleteDialog } from "@/app/_components/dialogs/delete_dialog";
 import prisma from "@/app/_db/db";
 import { handlePrismaError } from "@/app/_db/utils";
+import { deleteMovie } from "@/app/_lib/movie/actions";
 import React from "react";
 import MovieEditor from "./movie_editor";
-import { deleteEvent } from "@/app/_lib/event/actions";
-import { DeleteDialog } from "@/app/_components/dialogs/delete_dialog";
-import { deleteMovie } from "@/app/_lib/movie/actions";
 
 const MoviePopups = async ({ searchParams }: { searchParams: URLSearchParams }) => {
 

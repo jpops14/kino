@@ -1,13 +1,12 @@
 'use client'
 
-import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
-import { event } from "@prisma/client";
+import { handleDelete } from "@/app/_components/dialogs/delete_dialog";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { event } from "@prisma/client";
 import { usePathname, useRouter } from "next/navigation";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { handleDelete } from "@/app/_components/dialogs/delete_dialog";
 
 const Events = ({ searchParams, events } : { searchParams: URLSearchParams, events: event[] }) => {    
     const pathname = usePathname()

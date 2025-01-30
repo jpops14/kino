@@ -1,10 +1,8 @@
-import { Container } from "@mui/material";;
-import React from "react";
-import Rooms from "./rooms";
-import RoomPopups from "./room_popups";
-import { handlePrismaError } from "@/app/_db/utils";
-import prisma from "@/app/_db/db";
 import { getAdminRooms } from "@/app/_lib/room/actions";
+import { Container } from "@mui/material";
+import RoomPopups from "./room_popups";
+import Rooms from "./rooms";
+;
 
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
 

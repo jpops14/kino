@@ -1,15 +1,14 @@
 'use client'
 
+import ErrorList from "@/app/_components/form/error_list";
+import DisplayScreeningRoom from "@/app/_components/room/display_screening_room";
+import { editRoom } from "@/app/_lib/room/actions";
+import { editRoomSchema } from "@/app/_lib/room/definitions";
+import { Box, Button, Dialog, TextField, Typography } from "@mui/material";
 import { room } from "@prisma/client";
 import { redirect, usePathname, useSearchParams } from "next/navigation";
-import { Box, Button, Dialog, TextField, Typography } from "@mui/material";
-import { editRoom } from "@/app/_lib/room/actions";
 import { useActionState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { editRoomSchema } from "@/app/_lib/room/definitions";
-import { zodResolver } from "@hookform/resolvers/zod";
-import DisplayScreeningRoom from "@/app/_components/room/display_screening_room";
-import ErrorList from "@/app/_components/form/error_list";
 
 const RoomEditor = ({ roomData }: { roomData: room | null }) => { 
 
@@ -68,8 +67,8 @@ const RoomEditor = ({ roomData }: { roomData: room | null }) => {
                         <pre
                         >
                         [
-                            ["A1", "*", "A2", "*", "A3"],
-                            ["B1", "*", "B2", "*", "B3"]
+                            [&quot;A1&quot;, &quot;*&quot;, &quot;A2&quot;, &quot;*&quot;, &quot;A3&quot;],
+                            [&quot;B1&quot;, &quot;*&quot;, &quot;B2&quot;, &quot;*&quot;, &quot;B3&quot;]
                         ]
                         </pre>
                     </Typography>

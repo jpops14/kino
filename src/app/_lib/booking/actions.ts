@@ -5,6 +5,7 @@ import { handlePrismaError } from "@/app/_db/utils";
 import { redirect } from "next/navigation";
 import { verifySession } from "../auth/session";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const createBookingAction = async (state: { error?: string, updatedLockedSeats?: Set<string> } = {}, data: { screeningId: number, total: number, selectedSeats: Set<string> }) => {
 
     const session = await verifySession();

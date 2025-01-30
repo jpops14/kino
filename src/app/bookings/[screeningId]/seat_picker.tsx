@@ -34,6 +34,7 @@ const SeatPicker = ({ screeningData }: { screeningData: {
             setLockedSeats(state.updatedLockedSeats);
             setSelectedSeats(selectedSeats.difference(state.updatedLockedSeats));
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state?.updatedLockedSeats])
 
     const onSeatClick = (seat: string) => {

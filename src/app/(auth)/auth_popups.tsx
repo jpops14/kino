@@ -1,11 +1,10 @@
 'use client'
 
-import React from "react";
-import { SignUpDialog } from "./sign_up_dialog";
-import { SignInDialog } from "./sign_in_dialog";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React from "react";
+import { SignInDialog } from "./sign_in_dialog";
 import { SignOutDialog } from "./sign_out_dialog";
-import { DeleteDialog } from "../_components/dialogs/delete_dialog";
+import { SignUpDialog } from "./sign_up_dialog";
 
 const AuthPopups = () => {
     const router = useRouter();

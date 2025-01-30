@@ -1,9 +1,9 @@
 'use client'
 
-import { SessionUser } from "@/app/_lib/auth/session"
-import { Avatar, Box, IconButton, Link, Menu, MenuItem } from "@mui/material"
+import { SessionUser } from "@/app/_lib/auth/session";
+import { Avatar, Box, IconButton, Menu, MenuItem } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react"
+import React from "react";
 
 
 const  ProfileDropdown = ({ session }: { session:SessionUser | null }) => {

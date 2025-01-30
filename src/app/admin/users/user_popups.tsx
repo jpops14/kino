@@ -1,9 +1,7 @@
-import prisma from "@/app/_db/db";
-import { handlePrismaError } from "@/app/_db/utils";
+import { DeleteDialog } from "@/app/_components/dialogs/delete_dialog";
+import { deleteUser, getUser } from "@/app/_lib/user/actions";
 import React from "react";
 import UserEditor from "./user_editor";
-import { deleteUser, getUser } from "@/app/_lib/user/actions";
-import { DeleteDialog } from "@/app/_components/dialogs/delete_dialog";
 
 const UserPopups = async ({ searchParams }: { searchParams: URLSearchParams }) => {
 

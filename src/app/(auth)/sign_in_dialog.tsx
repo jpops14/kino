@@ -1,9 +1,9 @@
 'use client'
 
+import { Box, Button, Container, Dialog, TextField, Typography } from "@mui/material";
 import { useActionState, useEffect } from "react";
-import { signIn } from "../_lib/auth/actions";
-import { Box, Button, Container, Dialog, List, ListItem, TextField, Typography } from "@mui/material";
 import ErrorList from "../_components/form/error_list";
+import { signIn } from "../_lib/auth/actions";
 
 export const SignInDialog = ({ open, onClose }: { open: boolean, onClose: () => void}) => {
     const [state, action, pending] = useActionState(signIn, { errors: {}});
@@ -11,6 +11,7 @@ export const SignInDialog = ({ open, onClose }: { open: boolean, onClose: () => 
         if(state.success) {
             onClose();
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.success]);
 
     return (

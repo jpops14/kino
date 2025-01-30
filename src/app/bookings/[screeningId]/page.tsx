@@ -1,11 +1,11 @@
+import MovieDetails from "@/app/_components/movie/movie_details";
 import { verifySession } from "@/app/_lib/auth/session";
+import { getBookingScreeningData } from "@/app/_lib/screening/actions";
 import { Alert, Box, Button, Container, Divider, Paper, Typography } from "@mui/material";
 import React from "react";
 import SeatPicker from "./seat_picker";
-import { getBookingScreeningData } from "@/app/_lib/screening/actions";
-import MovieDetails from "@/app/_components/movie/movie_details";
 
-export default async function Page({ searchParams, params }: { searchParams: Promise<Record<string, string>>, params: Promise<{ screeningId: string }> }) {
+export default async function Page({ params }: { searchParams: Promise<Record<string, string>>, params: Promise<{ screeningId: string }> }) {
   const { screeningId } = await params;
   const session = await verifySession();
   const screeningData = await getBookingScreeningData(screeningId);

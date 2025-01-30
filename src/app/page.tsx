@@ -1,8 +1,6 @@
 import { Button, Container, Paper, Typography } from "@mui/material";
-import React from "react";
-import { getUserBookings } from "@/app/_lib/booking/actions";
-import BookingsList from "./bookings/bookings_list";
 import { verifySession } from "./_lib/auth/session";
+import BookingsList from "./bookings/bookings_list";
 import MoviesList from "./movies/movies_list";
 import NewsList from "./news/news_list";
 

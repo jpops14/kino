@@ -1,7 +1,6 @@
-import { AppBar, Avatar, Box, Button, Container, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
 import MovieIcon from '@mui/icons-material/Movie';
-import {  verifySession } from "../../_lib/auth/session";
-import Link from "next/link";
+import { AppBar, Box, Button, Container, Toolbar, Typography } from "@mui/material";
+import { verifySession } from "../../_lib/auth/session";
 import ProfileDropdown from "./profile_dropdown";
 
 export default async function NavBar() {

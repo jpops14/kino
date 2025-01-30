@@ -1,9 +1,6 @@
-import { Typography, Box, Paper, Grid, Button } from "@mui/material";
-import { movie } from "@prisma/client";
-import { redirect } from "next/navigation";
-import MovieCard from "./movie_card";
-import prisma from "../_db/db";
+import { Grid } from "@mui/material";
 import { getMovies } from "../_lib/movie/actions";
+import MovieCard from "./movie_card";
 
 const MoviesList = async ({ searchParams, limit }: { searchParams: URLSearchParams, limit?: number }) => {
 

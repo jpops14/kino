@@ -10,6 +10,7 @@ export const editRoomSchema = z.object({
                 const parsedLayout: string[][] = await JSON.parse(value);
                 const seats = parsedLayout.flat().filter((seat) => seat !== "*");
                 return (new Set(seats).size === seats.length);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (error) {
                 return false;
             }

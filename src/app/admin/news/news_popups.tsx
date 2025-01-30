@@ -1,10 +1,9 @@
+import { DeleteDialog } from "@/app/_components/dialogs/delete_dialog";
 import prisma from "@/app/_db/db";
 import { handlePrismaError } from "@/app/_db/utils";
+import { deleteNews } from "@/app/_lib/news/actions";
 import React from "react";
 import NewsEditor from "./news_editor";
-import { DeleteDialog } from "@/app/_components/dialogs/delete_dialog";
-import { deleteEvent } from "@/app/_lib/event/actions";
-import { deleteNews } from "@/app/_lib/news/actions";
 
 const NewsPopups = async ({ searchParams }: { searchParams: URLSearchParams }) => {
 

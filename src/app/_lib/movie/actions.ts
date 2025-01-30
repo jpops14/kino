@@ -2,12 +2,9 @@
 
 import prisma from "@/app/_db/db";
 import { handlePrismaError } from "@/app/_db/utils";
-import { MovieSchema } from "./definitons";
 import { redirect } from "next/navigation";
-import { errors } from "jose";
-import { verify } from "crypto";
 import { verifySession } from "../auth/session";
-import { start } from "repl";
+import { MovieSchema } from "./definitons";
 
 export const editMovie = async (state, formData: FormData) => {
 
@@ -45,7 +42,7 @@ export const editMovie = async (state, formData: FormData) => {
         }
     }
 
-    const { id, title, year, director, genre, description, duration, _tmdb_id, _imdb_id } = validationResult.data;
+    const { id, title, year, director, genre, description, duration } = validationResult.data;
 
     const movieOperation = id ? prisma.movie.update({
         where: { id: id },

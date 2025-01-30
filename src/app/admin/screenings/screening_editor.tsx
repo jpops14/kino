@@ -1,19 +1,18 @@
 'use client'
 
-import { movie, room, screening } from "@prisma/client";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { redirect, usePathname, useSearchParams } from "next/navigation";
-import { Alert, Autocomplete, Box, Button, Dialog, TextField, Tooltip, Typography } from "@mui/material";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { editScreening, getRoomScreeningsAndCapacity } from "@/app/_lib/screening/actions";
-import { useActionState, useEffect, useState, useTransition } from "react";
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import dayjs, { Dayjs } from "dayjs";
-import { Controller, useForm } from "react-hook-form";
 import ErrorList from "@/app/_components/form/error_list";
+import { editScreening, getRoomScreeningsAndCapacity } from "@/app/_lib/screening/actions";
+import { Alert, Autocomplete, Box, Button, Dialog, TextField, Typography } from "@mui/material";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
+import { movie, room, screening } from "@prisma/client";
+import dayjs, { Dayjs } from "dayjs";
+import { redirect, usePathname, useSearchParams } from "next/navigation";
+import { useActionState, useEffect, useState, useTransition } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 const ScreeningEditor = ({ screeningData, movies, rooms }: {
     screeningData: screening | null,

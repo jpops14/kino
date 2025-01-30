@@ -1,11 +1,10 @@
 'use client'
 
 import { TextField } from "@mui/material";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
-import { debounce } from '@mui/material/utils'
+import { debounce } from '@mui/material/utils';
 
 const SearchBar = () => {
     const searchParams = useSearchParams()
