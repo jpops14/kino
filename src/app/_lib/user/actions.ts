@@ -4,7 +4,7 @@ import prisma from "@/app/_db/db";
 import { handlePrismaError } from "@/app/_db/utils";
 import { editUserSchema } from "./definitons";
 import { redirect } from "next/navigation";
-import { verifySession } from "../auth/session";
+import { hashPassword, verifySession } from "../auth/session";
 
 export const editUser = async (state, formData: FormData) => {
     const session = await verifySession();
@@ -30,6 +30,8 @@ export const editUser = async (state, formData: FormData) => {
     }
 
     const { id, name, email, password, role } = validationResult.data;
+
+    const hashedPassword = await hashPassword(password);
     
     const userOperation = id ? prisma.user.update({
         where: { id: id },
@@ -37,14 +39,14 @@ export const editUser = async (state, formData: FormData) => {
             id: id,
             name: name,
             email: email,
-            password: password,
+            password: hashedPassword,
             role: role,
         }
     }) : prisma.user.create({
         data: {
             name: name,
             email: email,
-            password: password,
+            password: hashedPassword,
             role: role,
         }
     })
@@ -75,7 +77,7 @@ export const editUser = async (state, formData: FormData) => {
 export const getAdminUsers = async () => {
     const session = await verifySession();
     if(!session) {
-        redirect('/sign_in')
+        redirect('/?sign_in')
     }
     if(session.role !== 'ADMIN') {
         redirect('/')
@@ -95,7 +97,7 @@ export const getAdminUsers = async () => {
 export const getUser = async (id: number) => {
     const session = await verifySession();
     if(!session) {
-        redirect('/sign_in')
+        redirect('/?sign_in')
     }
     if(session.role !== 'ADMIN') {
         redirect('/')
@@ -107,7 +109,7 @@ export const deleteUser = async (id: number) => {
     const session = await verifySession();
     
     if (!session) {
-        redirect('/sign_in');
+        redirect('/?sign_in');
     }
     
     if (session.role !== 'ADMIN') {

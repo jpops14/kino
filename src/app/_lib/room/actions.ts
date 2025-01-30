@@ -76,7 +76,7 @@ export const editRoom = async (state, data: FormData) => {
 export const getAdminRooms = async () => {
     const session = await verifySession();
     if (!session) { 
-        redirect('/sign_in');
+        redirect('/?sign_in');
     }
     if (session.role !== 'ADMIN') {
         redirect('/');
@@ -90,7 +90,7 @@ export const deleteRoom = async (id: number) => {
     const session = await verifySession();
 
     if (!session) {
-        redirect('/sign_in');
+        redirect('/?sign_in');
     }
 
     if (session.role !== 'ADMIN') {

@@ -1,0 +1,90 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table user {
+  id Int [pk, increment]
+  email String [unique, not null]
+  name String [not null]
+  password String [not null]
+  role String [not null, default: 'USER']
+  bookings booking [not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table movie {
+  id Int [pk, increment]
+  title String [not null]
+  year Int [not null]
+  director String [not null]
+  description String [not null]
+  genre String [not null]
+  duration Int [not null]
+  screenings screening [not null]
+}
+
+Table room {
+  id Int [pk, increment]
+  name String [unique, not null]
+  capacity Int [not null]
+  layout String [not null]
+  information String
+  screenings screening [not null]
+}
+
+Table screening {
+  id Int [pk, increment]
+  start DateTime [not null]
+  movie movie [not null]
+  price Decimal [not null]
+  movie_id Int [not null]
+  room room [not null]
+  room_id Int [not null]
+  bookings booking [not null]
+  events event [not null]
+}
+
+Table booking {
+  id Int [pk, increment]
+  user user [not null]
+  user_id Int [not null]
+  screening screening [not null]
+  screening_id Int [not null]
+  seats String [not null]
+  seats_count Int [not null]
+  total Decimal [not null]
+  paid Boolean [not null, default: false]
+  transaction_id String
+  payment_expires DateTime [not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table event {
+  id Int [pk, increment]
+  name String [not null]
+  description String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  screenings screening [not null]
+}
+
+Table news {
+  id Int [pk, increment]
+  title String [not null]
+  subtitle String [not null]
+  content String [not null]
+  publication DateTime [default: `now()`, not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table eventToscreening {
+  eventsId Int [ref: > event.id]
+  screeningsId Int [ref: > screening.id]
+}
+
+Ref: screening.movie_id > movie.id
+
+Ref: screening.room_id > room.id
+
+Ref: booking.user_id > user.id
+
+Ref: booking.screening_id > screening.id

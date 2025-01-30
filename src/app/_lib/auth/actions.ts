@@ -3,7 +3,7 @@
 import prisma from "@/app/_db/db";
 import { SignInFormSchema, SignUpFormSchema } from "./definitons"
 import { handlePrismaError } from "@/app/_db/utils";
-import { createSession, deleteSession } from "./session";
+import { createSession, deleteSession, hashPassword } from "./session";
 
 export const signUp = async (state, formData: FormData) => {
     
@@ -20,12 +20,14 @@ export const signUp = async (state, formData: FormData) => {
     }
 
     const { name, email, password } = validationResult.data;
+
+    const hashedPassword = await hashPassword(password);
     
     const user = await prisma.user.create({
         data: {
             name: name,
             email: email,
-            password: password,
+            password: hashedPassword,
         }
     }).then(
         (user) => { 
@@ -60,11 +62,13 @@ export const signIn = async (state, formData: FormData) => {
 
     const { email, password } = validationResult.data;
     
+    const hashedPassword = await hashPassword(password);
+
     const user = await prisma.user.findFirst(
         {
             where: {
                 email: email,
-                password: password,
+                password: hashedPassword,
             }
         }
     ).then(

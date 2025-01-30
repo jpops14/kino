@@ -234,7 +234,7 @@ export const getScreenings = async (date: Date) => prisma.screening.findMany({
 export const getAdminScreenings = async () => { 
     const session = await verifySession();
     if (!session) { 
-        redirect('/sign_in');
+        redirect('/?sign_in');
     }
     if (session.role !== 'ADMIN') {
         redirect('/');
@@ -267,7 +267,7 @@ export const getAdminScreenings = async () => {
 export const getScreening = async (id: number) => {
     const session = await verifySession();
     if (!session) {
-        redirect('/sign_in');
+        redirect('/?sign_in');
     }
     if (session.role !== 'ADMIN') {
         redirect('/');
@@ -286,7 +286,7 @@ export const deleteScreening = async (id: number) => {
     const session = await verifySession();
 
     if (!session) {
-        redirect('/sign_in');
+        redirect('/?sign_in');
     }
 
     if (session.role !== 'ADMIN') {

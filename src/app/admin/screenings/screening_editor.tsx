@@ -13,6 +13,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs, { Dayjs } from "dayjs";
 import { Controller, useForm } from "react-hook-form";
 import ErrorList from "@/app/_components/form/error_list";
+import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
 
 const ScreeningEditor = ({ screeningData, movies, rooms }: {
     screeningData: screening | null,
@@ -157,7 +158,14 @@ const ScreeningEditor = ({ screeningData, movies, rooms }: {
                             value={startTime}
                             onAccept={setStartTime}
                             minutesStep={5}
-                            slotProps={{ textField: { fullWidth: true, sx: { my: 1 } } }}    
+                            slotProps={{ textField: { fullWidth: true, sx: { my: 1 } } }}
+                            ampm={false}
+                            ampmInClock={false}
+                            viewRenderers={{
+                                hours: renderTimeViewClock,
+                                minutes: renderTimeViewClock,
+                                seconds: renderTimeViewClock,
+                            }}
                         />
                     </LocalizationProvider>
                     <ErrorList errors={state?.errors?.price} />

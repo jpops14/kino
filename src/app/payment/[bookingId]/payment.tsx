@@ -43,6 +43,12 @@ const Payment = ({ bookingData }: { bookingData: {
     }
 
     const onApprove = (data: OnApproveData, actions: OnApproveActions) => {
+        if (dayjs(bookingData.payment_expires).isAfter(dayjs().subtract(5, 'seconds'))) {
+            setState({ error: 'Payment has expired' });
+        }
+
+        return Promise.reject();
+
         return actions?.order?.capture().then((details) => {
             return confirmBookingPayment(bookingData.id, details.id!);
         }).then((result) => setState(result));
@@ -63,7 +69,7 @@ const Payment = ({ bookingData }: { bookingData: {
                         <Button sx={{ my: 2, mx: 'auto' }} variant="contained" onClick={() => router.push('/bookings')}> Return to bookings </Button>
                     </Alert>
                 ) : (
-                    <PayPalButtons 
+                    <PayPalButtons
                         createOrder={(data, actions) => createOrder(data, actions)}
                         onApprove={(data, actions) => onApprove(data, actions)}
                     />

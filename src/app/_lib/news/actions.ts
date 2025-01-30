@@ -90,7 +90,7 @@ export const deleteNews = async (id: number) => {
     const session = await verifySession();
 
     if (!session) {
-        redirect('/sign_in');
+        redirect('/?sign_in');
     }
 
     if (session.role !== 'ADMIN') {

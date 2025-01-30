@@ -60,11 +60,18 @@ const RoomEditor = ({ roomData }: { roomData: room | null }) => {
                     <ErrorList errors={state?.errors?.information} />
                     <TextField defaultValue={roomData?.information} label="Information" fullWidth  sx={{ my: 1 }} {...register('information')} />
                     <Typography variant="h6">
-                        Please provide the layout of the screening room in the following format:
-                        - Each row is a list of seats
-                        - Each seat is represented by an empty string
-                        - Each empty string represents an empty seat
-                        - Each seat can be occupied by a person
+                        Please provide the layout of the screening room in the following format: A json array of arrays of strings (texts), 
+                        where every string is a unique identifier of a field. Use * to mark empty space.                        
+                    </Typography>
+                    <Typography variant="body">
+                        Example:
+                        <pre
+                        >
+                        [
+                            ["A1", "*", "A2", "*", "A3"],
+                            ["B1", "*", "B2", "*", "B3"]
+                        ]
+                        </pre>
                     </Typography>
                     <ErrorList errors={state?.errors?.layout} />
                     <TextField minRows={10} multiline defaultValue={roomData?.layout} label="Layout" fullWidth  sx={{ my: 1 }} {...register('layout')} />

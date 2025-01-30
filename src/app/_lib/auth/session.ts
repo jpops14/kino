@@ -2,6 +2,7 @@ import 'server-only'
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { role } from '../user/definitons';
+import bcrypt from 'bcrypt';
 
 const sessionSecret = process.env.SESSION_SECRET
 
@@ -10,7 +11,9 @@ const key = new TextEncoder().encode(sessionSecret)
 const password = process.env.PASSWORD_SECRET;
 const passwordSalt = process.env.PASSWORD_SALT;
 
-
+export const hashPassword = async (password: string) => {
+    return password;
+}
 
 const cookie = {
     name: "session",
