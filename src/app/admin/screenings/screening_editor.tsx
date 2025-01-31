@@ -30,8 +30,8 @@ const ScreeningEditor = ({ screeningData, movies, rooms }: {
     }[],
 }) => { 
     const [state, action, pending] = useActionState(editScreening, { errors: {}, });
-    const [startDate, setStartDate] = useState<Dayjs | null>(null);
-    const [startTime, setStartTime] = useState<Dayjs | null>(null);
+    const [startDate, setStartDate] = useState<Dayjs | null>(screeningData ? dayjs(screeningData?.start).startOf('day') : null);
+    const [startTime, setStartTime] = useState<Dayjs | null>(screeningData ? dayjs(screeningData?.start) : null);
     const [data, setData] = useState<{ start: Date, end: Date }[] | null>(null);
     const [isPending, startTransition] = useTransition();
     const { control, register, watch } = useForm();
@@ -143,7 +143,7 @@ const ScreeningEditor = ({ screeningData, movies, rooms }: {
                         <DatePicker 
                             label={"Date"} 
                             value={startDate}
-                            disabled={!selectedMovie || !selectedRoom}
+                            disabled={(!selectedMovie || !selectedRoom) && !screeningData}
                             onAccept={onDateSelect}
                             disablePast
                             slotProps={{ textField: { fullWidth: true, sx: { my: 1 } } }}
@@ -153,7 +153,7 @@ const ScreeningEditor = ({ screeningData, movies, rooms }: {
                         <TimePicker
                             label={"Time"}
                             shouldDisableTime={(value) => isConflicting(value)}
-                            disabled={!selectedMovie || !selectedRoom || !startDate || isPending} 
+                            disabled={((!selectedMovie || !selectedRoom || !startDate) && !screeningData) || isPending} 
                             value={startTime}
                             onAccept={setStartTime}
                             minutesStep={5}
