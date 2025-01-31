@@ -4,8 +4,11 @@ FROM node:18 AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
+COPY prisma ./prisma
 
 RUN npm install
+
+RUN npx prisma generate
 
 COPY . .
 
