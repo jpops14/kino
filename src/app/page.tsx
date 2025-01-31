@@ -26,7 +26,7 @@ export default async function Page() {
           <NewsList limit={3}/>
           <Button href="/news" > 
               <Typography variant='button'>
-                See all movies  
+                See all news
               </Typography> 
           </Button>
         </Paper>
